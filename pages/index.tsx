@@ -1,5 +1,6 @@
 import Layout from "../components/layout";
 import React, {useEffect, useState} from "react";
+import Modal from "../components/modal";
 
 export default function HomePage() {
     const [total, setTotal] = useState<number>(0);
@@ -66,6 +67,11 @@ export default function HomePage() {
                     <button className='btn-primary' onClick={onSubmit}>
                         Calculate
                     </button>
+                    <Modal>
+                        <h1>
+                            Hello World!
+                        </h1>
+                    </Modal>
                 </div>
 
                 {/* Result */}
