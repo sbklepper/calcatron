@@ -1,20 +1,36 @@
 import Layout from "../components/layout";
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 
 export default function HomePage() {
     const [total, setTotal] = useState<number>(0);
     const [number, setNumber] = useState<number>(0);
     const [percent, setPercent] = useState<number>(0);
 
-    const multiplyByPercentage = (number: number, percentage: number): number => {
-        return number * percentage / 100;
-    }
+    /**
+     * Function to multiply a number by a percentage
+     * @param number
+     * @param percentage
+     * @returns number
+     */
+    const multiplyByPercentage = useCallback((number: number, percentage: number): number => {
+        return (number * percentage) / 100;
+    }, []);
 
-    const calculateDifference = (number: number, percentage: number): number => {
+    /**
+     * Function to calculate the difference
+     * @param number
+     * @param percentage
+     * @returns number
+     */
+    const calculateDifference = useCallback((number: number, percentage: number): number => {
         return number - multiplyByPercentage(number, percentage);
-    }
+    }, [multiplyByPercentage]);
 
-    // handle input change
+    /**
+     * Function to handle input change
+     * @param e
+     * @returns void
+     */
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value} = e.target;
         if (name === "total") {
@@ -26,14 +42,22 @@ export default function HomePage() {
         }
     }
 
-    // @ts-ignore
-    const onSubmit = (e) => {
+    /**
+     * Function to handle form submit
+     * @param e
+     * @returns void
+     */
+    const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setTotal(calculateDifference(number, percent));
     }
 
-    // function to reset the form with escape key
-    const resetForm = (e: React.KeyboardEvent) => {
+    /**
+     * Function to reset the form with escape key
+     * @param e
+     * @returns void
+     */
+    const resetForm = (e: KeyboardEvent) => {
         if (e.key === "Escape") {
             setTotal(0);
             setNumber(0);
@@ -41,31 +65,43 @@ export default function HomePage() {
         }
     }
 
-    // useEffect to reset the form with escape key
-    // @ts-ignore
+    /**
+     * Function to handle enter key
+     * @param e
+     * @returns void
+     */
+    const handleEnterKey = useCallback((e: KeyboardEvent) => {
+        if (e.key === "Enter") {
+            setTotal(calculateDifference(number, percent));
+        }
+    }, [calculateDifference, number, percent]);
+
+    /**
+     * Effect to add event listeners
+     */
     useEffect(() => {
-        // @ts-ignore
         window.addEventListener("keydown", resetForm);
+        window.addEventListener("keydown", handleEnterKey);
         return () => {
-            // @ts-ignore
             window.removeEventListener("keydown", resetForm);
+            window.removeEventListener("keydown", handleEnterKey);
         };
-    });
-    // @ts-ignore
+    }, [total, number, percent, handleEnterKey]);
+
     return (
         <Layout>
             <div className="home-container">
                 {/* Input */}
                 <div className="input-container">
                     <form onSubmit={onSubmit}>
-                        <input type="number" placeholder="Enter a number" name={'number'} value={number || ""}
+                        <input type="number" placeholder="#" name={'number'} value={number || ""}
                                onChange={(e) => handleInputChange(e)}/>
-                        <input type="number" placeholder="Enter a percentage" name='percent' value={percent || ""}
+                        <input type="number" placeholder="%" name='percent' value={percent || ""}
                                onChange={(e) => handleInputChange(e)}/>
-                    </form>
-                    <button className='btn-primary' onClick={onSubmit}>
+                    <button className='btn-primary' type={'submit'}>
                         Calculate
                     </button>
+                    </form>
                 </div>
 
                 {/* Result */}

@@ -1,12 +1,12 @@
+import React, {ReactNode} from "react";
 import Head from "next/head";
-import React from "react";
 import Nav from "./nav/Nav";
 
 type Props = {
     title: string;
     description: string;
     keywords: string;
-    children: React.ReactNode;
+    children: ReactNode;
 }
 
 export default function Layout({title, description, keywords, children}: Props) {
@@ -22,13 +22,12 @@ export default function Layout({title, description, keywords, children}: Props) 
             <main>
                 {children}
             </main>
-
         </>
     )
 }
 
 Layout.defaultProps = {
     title: 'Calcatron',
-    description: 'Calcatron is a calculator app',
-    keywords: 'calculator, math, app'
+    description: 'Frontend developer tool to calculate percentages and differences.',
+    keywords: 'frontend, developer, tool, calculate, percentages, differences'
 }
