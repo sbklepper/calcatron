@@ -26,7 +26,6 @@ export default function Layout({title, description, keywords, children}: Props) 
     )
 }
 
-//
 Layout.defaultProps = {
     title: 'Calcatron',
     description: 'Frontend developer tool to calculate percentages and differences.',
