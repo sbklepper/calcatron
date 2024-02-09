@@ -94,10 +94,18 @@ export default function HomePage() {
                 {/* Input */}
                 <div className="input-container">
                     <form onSubmit={onSubmit}>
+                        <div className="form-group">
+                            <label htmlFor={'number'}>Number</label>
                         <input type="number" placeholder="#" name={'number'} value={number || ""}
                                onChange={(e) => handleInputChange(e)}/>
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor={'percent'}>Percent</label>
                         <input type="number" placeholder="%" name='percent' value={percent || ""}
                                onChange={(e) => handleInputChange(e)}/>
+                        </div>
+
                     <button className='btn-primary' type={'submit'}>
                         Calculate
                     </button>
